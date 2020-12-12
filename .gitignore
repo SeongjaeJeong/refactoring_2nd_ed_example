@@ -1,0 +1,7 @@
+.DS_Store
+.vscode/launch.json
+.vscode/settings.json
+
+/Ch1/.vscode
+/Ch1/__pycache__
+/Ch1/test/__pycache__
