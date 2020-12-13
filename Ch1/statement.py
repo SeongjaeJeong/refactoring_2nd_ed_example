@@ -4,6 +4,12 @@ from functools import reduce
 
 
 def statement(invoice: dict, plays: dict) -> str:
+    statement_data = createStatementData(invoice, plays)
+
+    return renderPlainText(statement_data, plays)
+
+
+def createStatementData(invoice, plays):
     statement_data = dict()
     statement_data["customer"] = invoice["customer"]
     statement_data["performances"] = [
@@ -11,8 +17,7 @@ def statement(invoice: dict, plays: dict) -> str:
     ]
     statement_data["total_amount"] = totalAmount(statement_data, plays)
     statement_data["total_volume_credits"] = totalVolumeCredits(statement_data, plays)
-
-    return renderPlainText(statement_data, plays)
+    return statement_data
 
 
 def enrichPerformance(aPerformance, plays):
