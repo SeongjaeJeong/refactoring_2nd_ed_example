@@ -15,6 +15,7 @@ def statement(invoice: dict, plays: dict) -> str:
 def enrichPerformance(aPerformance, plays):
     result = copy.copy(aPerformance)
     result["play"] = playFor(result, plays)
+    result["amount"] = amountFor(result, plays)
     return result
 
 
@@ -22,7 +23,9 @@ def renderPlainText(data, plays):
     result = f'청구 내역 (고객명: {data["customer"]})\n'
     for perf in data["performances"]:
         # 청구 내역 출력
-        result += f'\t{perf["play"]["name"]}: ${usd(amountFor(perf, plays))} ({perf["audience"]}석)\n'
+        result += (
+            f'\t{perf["play"]["name"]}: ${usd(perf["amount"])} ({perf["audience"]}석)\n'
+        )
     result += f"총액: ${usd(totalAmount(data, plays))}\n"
     result += f"적립 포인트: {totalVolumeCredits(data, plays)}점"
     return result
@@ -31,7 +34,7 @@ def renderPlainText(data, plays):
 def totalAmount(data, plays):
     result = 0
     for perf in data["performances"]:
-        result += amountFor(perf, plays)
+        result += perf["amount"]
     return result
 
 
