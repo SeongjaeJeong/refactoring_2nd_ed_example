@@ -7,7 +7,7 @@ def statement(invoice: dict, plays: dict) -> str:
     result = f'청구 내역 (고객명: {invoice["customer"]})\n'
 
     for perf in invoice["performances"]:
-        this_amount = amountFor(perf, playFor(plays, perf))
+        this_amount = amountFor(perf, plays)
 
         # 포인트 적립
         volume_credits += max(perf["audience"] - 30, 0)
@@ -29,17 +29,17 @@ def playFor(plays, aPerformance):
     return plays[aPerformance["playID"]]
 
 
-def amountFor(aPerformance, play):
+def amountFor(aPerformance, plays):
     result = 0
-    if play["type"] == "tragedy":
+    if playFor(plays, aPerformance)["type"] == "tragedy":
         result = 40000
         if aPerformance["audience"] > 30:
             result += 1000 * (aPerformance["audience"] - 30)
-    elif play["type"] == "comedy":
+    elif playFor(plays, aPerformance)["type"] == "comedy":
         result = 30000
         if aPerformance["audience"] > 20:
             result += 10000 + 500 * (aPerformance["audience"] - 20)
         result += 300 * aPerformance["audience"]
     else:
-        raise Exception(f'알 수 없는 장르: {play["type"]}')
+        raise Exception(f'알 수 없는 장르: {playFor(plays, aPerformance)["type"]}')
     return result
