@@ -16,6 +16,7 @@ def enrichPerformance(aPerformance, plays):
     result = copy.copy(aPerformance)
     result["play"] = playFor(result, plays)
     result["amount"] = amountFor(result, plays)
+    result["volume_credits"] = volumeCreditsFor(result, plays)
     return result
 
 
@@ -42,7 +43,7 @@ def totalVolumeCredits(data, plays):
     result = 0
     for perf in data["performances"]:
         # 포인트 적립
-        result += volumeCreditsFor(perf, plays)
+        result += perf["volume_credits"]
     return result
 
 
