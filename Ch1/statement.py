@@ -3,29 +3,31 @@ import math
 
 def statement(invoice: dict, plays: dict) -> str:
     statement_data = dict()
-    return renderPlainText(statement_data, invoice, plays)
+    statement_data["customer"] = invoice["customer"]
+    statement_data["performances"] = invoice["performances"]
+    return renderPlainText(statement_data, plays)
 
 
-def renderPlainText(data, invoice, plays):
-    result = f'청구 내역 (고객명: {invoice["customer"]})\n'
-    for perf in invoice["performances"]:
+def renderPlainText(data, plays):
+    result = f'청구 내역 (고객명: {data["customer"]})\n'
+    for perf in data["performances"]:
         # 청구 내역 출력
         result += f'\t{playFor(perf, plays)["name"]}: ${usd(amountFor(perf, plays))} ({perf["audience"]}석)\n'
-    result += f"총액: ${usd(totalAmount(invoice, plays))}\n"
-    result += f"적립 포인트: {totalVolumeCredits(invoice, plays)}점"
+    result += f"총액: ${usd(totalAmount(data, plays))}\n"
+    result += f"적립 포인트: {totalVolumeCredits(data, plays)}점"
     return result
 
 
-def totalAmount(invoice, plays):
+def totalAmount(data, plays):
     result = 0
-    for perf in invoice["performances"]:
+    for perf in data["performances"]:
         result += amountFor(perf, plays)
     return result
 
 
-def totalVolumeCredits(invoice, plays):
+def totalVolumeCredits(data, plays):
     result = 0
-    for perf in invoice["performances"]:
+    for perf in data["performances"]:
         # 포인트 적립
         result += volumeCreditsFor(perf, plays)
     return result
