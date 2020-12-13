@@ -15,18 +15,18 @@ def statement(invoice: dict, plays: dict) -> str:
 
 
 def totalAmount(invoice, plays):
-    total_amount = 0
+    result = 0
     for perf in invoice["performances"]:
-        total_amount += amountFor(perf, plays)
-    return total_amount
+        result += amountFor(perf, plays)
+    return result
 
 
 def totalVolumeCredits(invoice, plays):
-    volume_credits = 0
+    result = 0
     for perf in invoice["performances"]:
         # 포인트 적립
-        volume_credits += volumeCreditsFor(perf, plays)
-    return volume_credits
+        result += volumeCreditsFor(perf, plays)
+    return result
 
 
 def usd(aNumber):
