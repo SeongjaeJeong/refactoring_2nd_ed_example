@@ -8,7 +8,7 @@ def statement(invoice: dict, plays: dict) -> str:
 
     for perf in invoice["performances"]:
         play = plays[perf["playID"]]
-        this_amount = new_func(perf, play)
+        this_amount = amountFor(perf, play)
 
         # 포인트 적립
         volume_credits += max(perf["audience"] - 30, 0)
@@ -26,7 +26,7 @@ def statement(invoice: dict, plays: dict) -> str:
     return result
 
 
-def new_func(perf, play):
+def amountFor(perf, play):
     this_amount = 0
     if play["type"] == "tragedy":
         this_amount = 40000
