@@ -2,15 +2,16 @@ import math
 
 
 def statement(invoice: dict, plays: dict) -> str:
-    result = f'청구 내역 (고객명: {invoice["customer"]})\n'
+    return renderPlainText(invoice, plays)
 
+
+def renderPlainText(invoice, plays):
+    result = f'청구 내역 (고객명: {invoice["customer"]})\n'
     for perf in invoice["performances"]:
         # 청구 내역 출력
         result += f'\t{playFor(perf, plays)["name"]}: ${usd(amountFor(perf, plays))} ({perf["audience"]}석)\n'
-
     result += f"총액: ${usd(totalAmount(invoice, plays))}\n"
     result += f"적립 포인트: {totalVolumeCredits(invoice, plays)}점"
-
     return result
 
 
