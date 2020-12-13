@@ -11,13 +11,17 @@ def statement(invoice: dict, plays: dict) -> str:
         volume_credits += volumeCreditsFor(perf, plays)
 
         # 청구 내역 출력
-        result += f'\t{playFor(perf, plays)["name"]}: ${format(amountFor(perf, plays) / 100, ",")} ({perf["audience"]}석)\n'
+        result += f'\t{playFor(perf, plays)["name"]}: ${usd(amountFor(perf, plays))} ({perf["audience"]}석)\n'
         total_amount += amountFor(perf, plays)
 
-    result += f'총액: ${format(total_amount / 100, ",")}\n'
+    result += f"총액: ${usd(total_amount)}\n"
     result += f"적립 포인트: {volume_credits}점"
 
     return result
+
+
+def usd(aNumber):
+    return format(aNumber / 100, ",")
 
 
 def volumeCreditsFor(aPerformance, plays):
