@@ -7,7 +7,7 @@ def statement(invoice: dict, plays: dict) -> str:
     result = f'청구 내역 (고객명: {invoice["customer"]})\n'
 
     for perf in invoice["performances"]:
-        play = plays[perf["playID"]]
+        play = playFor(plays, perf)
         this_amount = amountFor(perf, play)
 
         # 포인트 적립
@@ -24,6 +24,10 @@ def statement(invoice: dict, plays: dict) -> str:
     result += f"적립 포인트: {volume_credits}점"
 
     return result
+
+
+def playFor(plays, aPerformance):
+    return plays[aPerformance["playID"]]
 
 
 def amountFor(aPerformance, play):
