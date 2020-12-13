@@ -8,10 +8,10 @@ def statement(invoice: dict, plays: dict) -> str:
 
     for perf in invoice["performances"]:
         # 포인트 적립
-        volume_credits += volumeCreditsFor(plays, perf)
+        volume_credits += volumeCreditsFor(perf, plays)
 
         # 청구 내역 출력
-        result += f'\t{playFor(plays, perf)["name"]}: ${format(amountFor(perf, plays) / 100, ",")} ({perf["audience"]}석)\n'
+        result += f'\t{playFor(perf, plays)["name"]}: ${format(amountFor(perf, plays) / 100, ",")} ({perf["audience"]}석)\n'
         total_amount += amountFor(perf, plays)
 
     result += f'총액: ${format(total_amount / 100, ",")}\n'
@@ -20,29 +20,29 @@ def statement(invoice: dict, plays: dict) -> str:
     return result
 
 
-def volumeCreditsFor(plays, aPerformance):
+def volumeCreditsFor(aPerformance, plays):
     result = 0
     result += max(aPerformance["audience"] - 30, 0)
-    if playFor(plays, aPerformance)["type"] == "comedy":
+    if playFor(aPerformance, plays)["type"] == "comedy":
         result += math.floor(aPerformance["audience"] / 5)
     return result
 
 
-def playFor(plays, aPerformance):
+def playFor(aPerformance, plays):
     return plays[aPerformance["playID"]]
 
 
 def amountFor(aPerformance, plays):
     result = 0
-    if playFor(plays, aPerformance)["type"] == "tragedy":
+    if playFor(aPerformance, plays)["type"] == "tragedy":
         result = 40000
         if aPerformance["audience"] > 30:
             result += 1000 * (aPerformance["audience"] - 30)
-    elif playFor(plays, aPerformance)["type"] == "comedy":
+    elif playFor(aPerformance, plays)["type"] == "comedy":
         result = 30000
         if aPerformance["audience"] > 20:
             result += 10000 + 500 * (aPerformance["audience"] - 20)
         result += 300 * aPerformance["audience"]
     else:
-        raise Exception(f'알 수 없는 장르: {playFor(plays, aPerformance)["type"]}')
+        raise Exception(f'알 수 없는 장르: {playFor(aPerformance, plays)["type"]}')
     return result
