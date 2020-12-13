@@ -8,10 +8,6 @@ class TestStatement(unittest.TestCase):
         self.invoice = import_json_file("invoices.json")
         self.plays = import_json_file("plays.json")
 
-    def test_statement_not_none(self):
-        result = statement(self.invoice[0], self.plays)
-        self.assertIsNotNone(result)
-
     def test_statement_correct(self):
         result_expected = (
             "청구 내역 (고객명: BigCo)\n"
