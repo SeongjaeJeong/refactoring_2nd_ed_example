@@ -8,10 +8,7 @@ def statement(invoice: dict, plays: dict) -> str:
 
     for perf in invoice["performances"]:
         # 포인트 적립
-        volume_credits += max(perf["audience"] - 30, 0)
-        # 희극 관객 5명마다 추가 포인트 제공
-        if playFor(plays, perf)["type"] == "comedy":
-            volume_credits += math.floor(perf["audience"] / 5)
+        volume_credits += volumeCreditsFor(plays, perf)
 
         # 청구 내역 출력
         result += f'\t{playFor(plays, perf)["name"]}: ${format(amountFor(perf, plays) / 100, ",")} ({perf["audience"]}석)\n'
@@ -20,6 +17,14 @@ def statement(invoice: dict, plays: dict) -> str:
     result += f'총액: ${format(total_amount / 100, ",")}\n'
     result += f"적립 포인트: {volume_credits}점"
 
+    return result
+
+
+def volumeCreditsFor(plays, aPerformance):
+    result = 0
+    result += max(aPerformance["audience"] - 30, 0)
+    if playFor(plays, aPerformance)["type"] == "comedy":
+        result += math.floor(aPerformance["audience"] / 5)
     return result
 
 
