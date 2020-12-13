@@ -8,6 +8,8 @@ def statement(invoice: dict, plays: dict) -> str:
     statement_data["performances"] = [
         enrichPerformance(perf, plays) for perf in invoice["performances"]
     ]
+    statement_data["total_amount"] = totalAmount(statement_data, plays)
+    statement_data["total_volume_credits"] = totalVolumeCredits(statement_data, plays)
 
     return renderPlainText(statement_data, plays)
 
