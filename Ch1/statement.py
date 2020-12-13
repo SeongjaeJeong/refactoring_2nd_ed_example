@@ -10,15 +10,19 @@ def statement(invoice: dict, plays: dict) -> str:
         result += f'\t{playFor(perf, plays)["name"]}: ${usd(amountFor(perf, plays))} ({perf["audience"]}석)\n'
         total_amount += amountFor(perf, plays)
 
-    volume_credits = 0
-    for perf in invoice["performances"]:
-        # 포인트 적립
-        volume_credits += volumeCreditsFor(perf, plays)
+    volume_credits = totalVolumeCredits(invoice, plays)
 
     result += f"총액: ${usd(total_amount)}\n"
     result += f"적립 포인트: {volume_credits}점"
 
     return result
+
+def totalVolumeCredits(invoice, plays):
+    volume_credits = 0
+    for perf in invoice["performances"]:
+        # 포인트 적립
+        volume_credits += volumeCreditsFor(perf, plays)
+    return volume_credits
 
 
 def usd(aNumber):
