@@ -10,14 +10,14 @@ def statement(invoice: dict, plays: dict) -> str:
 
 
 def createStatementData(invoice, plays):
-    statement_data = dict()
-    statement_data["customer"] = invoice["customer"]
-    statement_data["performances"] = [
+    result = dict()
+    result["customer"] = invoice["customer"]
+    result["performances"] = [
         enrichPerformance(perf, plays) for perf in invoice["performances"]
     ]
-    statement_data["total_amount"] = totalAmount(statement_data, plays)
-    statement_data["total_volume_credits"] = totalVolumeCredits(statement_data, plays)
-    return statement_data
+    result["total_amount"] = totalAmount(result, plays)
+    result["total_volume_credits"] = totalVolumeCredits(result, plays)
+    return result
 
 
 def enrichPerformance(aPerformance, plays):
